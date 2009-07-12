@@ -1,6 +1,8 @@
-AC_INIT(src/murmur.cpp)
+AC_INIT([libmurmur], [0.1], [jeff@somethingsimilar.com])
 
-AM_INIT_AUTOMAKE(murmur,0.1)
+AC_CONFIG_SRCDIR(src/murmur.cpp)
+
+AM_INIT_AUTOMAKE
 
 AC_PROG_CC
 
