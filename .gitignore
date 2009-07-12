@@ -2,3 +2,7 @@
 autom4te.cache
 config.log
 config.status
+*.o
+*.lo
+*.la
+.libs
