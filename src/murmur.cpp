@@ -363,9 +363,8 @@ uint64_t MurmurHash64 ( const void * key, int len, unsigned int seed )
 {
 #ifdef _LP64
 /* we're on a 64-bit machine so act like it, punk */
-  return MurmurHash64A(key, seed);
+  return MurmurHash64A(key, len, seed);
 #else
-  return MurmurHash64B(key, seed);
+  return MurmurHash64B(key, len, seed);
 #endif
 }
-
