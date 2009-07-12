@@ -1,0 +1,11 @@
+AC_INIT(src/murmur.cpp)
+
+AM_INIT_AUTOMAKE(murmur,0.1)
+
+AC_PROG_CC
+
+AC_PROG_CXX
+
+AC_PROG_INSTALL
+
+AC_OUTPUT(Makefile)
