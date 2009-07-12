@@ -1,3 +1,3 @@
-lib_LTLIBRARIES = libmurmur.la
+lib_LTLIBRARIES = libmurmurhash.la
 
-libmurmur_la_SOURCES = src/murmur.cpp
+libmurmurhash_la_SOURCES = src/murmurhash.cc
