@@ -6,3 +6,4 @@ config.status
 *.lo
 *.la
 .libs
+Makefile
