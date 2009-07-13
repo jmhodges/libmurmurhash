@@ -231,3 +231,17 @@ uint64_t MurmurHash64 ( const void * key, int len, unsigned int seed )
   return MurmurHash64B(key, len, seed);
 #endif
 }
+
+extern "C" {
+  uint64_t C_MurmurHash64(const void * key, int len, unsigned int seed) {
+    return MurmurHash64(key, len, seed);
+  }
+
+  unsigned int C_MurmurHashNeutral2 ( const void * key, int len, unsigned int seed ) {
+    return MurmurHashNeutral2(key, len, seed);
+  }
+
+  unsigned int C_MurmurHash2 ( const void * key, int len, unsigned int seed ) {
+    return MurmurHash2(key, len, seed);
+  }
+}
