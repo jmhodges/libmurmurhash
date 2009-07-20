@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include "limits.h"
 
-unsigned int MurmurHash2 ( const void * key, int len, unsigned int seed )
+extern "C" unsigned int MurmurHash2 ( const void * key, int len, unsigned int seed )
 {
   // 'm' and 'r' are mixing constants generated offline.
   // They're not really 'magic', they just happen to work well.
@@ -73,7 +73,7 @@ unsigned int MurmurHash2 ( const void * key, int len, unsigned int seed )
 // Same as MurmurHash2, but endian- and alignment-neutral.
 // Half the speed though, alas.
 
-unsigned int MurmurHashNeutral2 ( const void * key, int len, unsigned int seed )
+extern "C" unsigned int MurmurHashNeutral2 ( const void * key, int len, unsigned int seed )
 {
   const unsigned int m = 0x5bd1e995;
   const int r = 24;
@@ -125,7 +125,7 @@ unsigned int MurmurHashNeutral2 ( const void * key, int len, unsigned int seed )
 
 // 64-bit hash for 64-bit platforms
 
-uint64_t MurmurHash64A ( const void * key, int len, unsigned int seed )
+extern "C" uint64_t MurmurHash64A ( const void * key, int len, unsigned int seed )
 {
 	const uint64_t m = 0xc6a4a7935bd1e995LL;
 	const int r = 47;
@@ -171,7 +171,7 @@ uint64_t MurmurHash64A ( const void * key, int len, unsigned int seed )
 
 // 64-bit hash for 32-bit platforms
 
-uint64_t MurmurHash64B ( const void * key, int len, unsigned int seed )
+extern "C" uint64_t MurmurHash64B ( const void * key, int len, unsigned int seed )
 {
 	const unsigned int m = 0x5bd1e995;
 	const int r = 24;
@@ -222,7 +222,7 @@ uint64_t MurmurHash64B ( const void * key, int len, unsigned int seed )
 	return h;
 }
 
-uint64_t MurmurHash64 ( const void * key, int len, unsigned int seed )
+extern "C" uint64_t MurmurHash64 ( const void * key, int len, unsigned int seed )
 {
 #ifdef _LP64
 /* we're on a 64-bit machine so act like it, punk */
@@ -230,18 +230,4 @@ uint64_t MurmurHash64 ( const void * key, int len, unsigned int seed )
 #else
   return MurmurHash64B(key, len, seed);
 #endif
-}
-
-extern "C" {
-  uint64_t C_MurmurHash64(const void * key, int len, unsigned int seed) {
-    return MurmurHash64(key, len, seed);
-  }
-
-  unsigned int C_MurmurHashNeutral2 ( const void * key, int len, unsigned int seed ) {
-    return MurmurHashNeutral2(key, len, seed);
-  }
-
-  unsigned int C_MurmurHash2 ( const void * key, int len, unsigned int seed ) {
-    return MurmurHash2(key, len, seed);
-  }
 }
