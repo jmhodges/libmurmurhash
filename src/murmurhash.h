@@ -1,7 +1,6 @@
 #ifndef MURMURHASH_H
 #define MURMURHASH_H
 
-#include <stdio.h>
 #include <stdint.h>
 #include "limits.h"
 
