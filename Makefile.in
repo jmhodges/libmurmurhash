@@ -15,6 +15,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -35,10 +36,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/configure AUTHORS COPYING \
-	ChangeLog INSTALL NEWS config.guess config.sub depcomp \
-	install-sh ltmain.sh missing
+DIST_COMMON = README $(am__configure_deps) $(murmurhash_HEADERS) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
+	config.guess config.sub depcomp install-sh ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
@@ -70,7 +71,7 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(murmurhashdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libmurmurhash_la_LIBADD =
 am_libmurmurhash_la_OBJECTS = murmurhash.lo
@@ -90,6 +91,7 @@ CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libmurmurhash_la_SOURCES)
 DIST_SOURCES = $(libmurmurhash_la_SOURCES)
+HEADERS = $(murmurhash_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -220,6 +222,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libmurmurhash.la
 libmurmurhash_la_SOURCES = src/murmurhash.cc
+murmurhashdir = ${includedir}/murmurhash-1.0.0
+murmurhash_HEADERS = src/murmurhash.h
 all: all-am
 
 .SUFFIXES:
@@ -336,6 +340,26 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
+install-murmurhashHEADERS: $(murmurhash_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(murmurhashdir)" || $(MKDIR_P) "$(DESTDIR)$(murmurhashdir)"
+	@list='$(murmurhash_HEADERS)'; test -n "$(murmurhashdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(murmurhashdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(murmurhashdir)" || exit $$?; \
+	done
+
+uninstall-murmurhashHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(murmurhash_HEADERS)'; test -n "$(murmurhashdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(murmurhashdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(murmurhashdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -537,9 +561,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(murmurhashdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -591,7 +615,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-murmurhashHEADERS
 
 install-dvi: install-dvi-am
 
@@ -639,7 +663,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES uninstall-murmurhashHEADERS
 
 .MAKE: install-am install-strip
 
@@ -652,12 +676,14 @@ uninstall-am: uninstall-libLTLIBRARIES
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-info-am install-libLTLIBRARIES install-man \
+	install-murmurhashHEADERS install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES
+	tags uninstall uninstall-am uninstall-libLTLIBRARIES \
+	uninstall-murmurhashHEADERS
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
