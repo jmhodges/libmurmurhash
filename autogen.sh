@@ -11,7 +11,13 @@ run ()
     fi
 }
 
-run glibtoolize --copy --force
+LIBTOOL_CMD=`which libtoolize`
+
+if [ -z $LIBTOOL_CMD ]; then
+  LIBTOOL_CMD="glibtoolize"
+fi
+
+run $LIBTOOL_CMD --copy --force
 run aclocal
 run automake
 run autoconf
