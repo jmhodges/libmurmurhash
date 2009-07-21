@@ -1,5 +1,7 @@
 AC_INIT([libmurmurhash], [0.1], [jeff@somethingsimilar.com])
 
+AC_CONFIG_MACRO_DIR([m4])
+
 AC_CONFIG_SRCDIR(src/murmurhash.cc)
 
 AM_INIT_AUTOMAKE

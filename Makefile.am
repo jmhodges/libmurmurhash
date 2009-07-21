@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = "-I m4"
+
 lib_LTLIBRARIES = libmurmurhash.la
 
 libmurmurhash_la_SOURCES = src/murmurhash.cc
