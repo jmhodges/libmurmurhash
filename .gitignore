@@ -7,4 +7,3 @@ config.status
 *.la
 .libs
 Makefile
-libtool

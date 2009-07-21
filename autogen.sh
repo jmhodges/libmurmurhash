@@ -11,6 +11,7 @@ run ()
     fi
 }
 
+run glibtoolize --copy --force
 run aclocal
 run automake
 run autoconf
