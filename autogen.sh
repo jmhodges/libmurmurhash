@@ -18,6 +18,6 @@ if [ -z $LIBTOOL_CMD ]; then
 fi
 
 run $LIBTOOL_CMD --copy --force
-run aclocal
+run aclocal -I m4
 run automake
 run autoconf
