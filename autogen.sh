@@ -19,5 +19,5 @@ fi
 
 run $LIBTOOL_CMD --copy --force
 run aclocal -I m4
-run automake
+run automake -ac
 run autoconf
